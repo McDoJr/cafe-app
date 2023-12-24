@@ -4,7 +4,7 @@ import axios from "axios";
 import {DataContext} from "../utils/context.js";
 import {STRAPI_URL} from "../utils/data.js";
 
-const CartCard = ({order, updateOrders}) => {
+const CartCard = ({order, updateOrders, updateQuantity}) => {
 
     const {user} = useContext(DataContext);
     const {name, price, quantity} = order;
@@ -22,6 +22,8 @@ const CartCard = ({order, updateOrders}) => {
         const currentAmount = amount + num;
         setAmount(currentAmount);
         update(currentAmount);
+        order.quantity = currentAmount;
+        updateQuantity();
     }
 
     const update = (amount) => {

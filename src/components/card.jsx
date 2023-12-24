@@ -1,8 +1,17 @@
-const Card = ({ slide, setOrder }) => {
+import {useContext} from "react";
+import {DataContext} from "../utils/context.js";
+import {useNavigate} from "react-router-dom";
 
+const Card = ({ slide, setOrder }) => {
+    const navigate = useNavigate();
+    const {user} = useContext(DataContext);
     const {name, price} = slide;
 
     const handleOrder = () => {
+        if(!user) {
+            navigate("/login");
+            return;
+        }
         setOrder({name, price, quantity: 1});
     }
 

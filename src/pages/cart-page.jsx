@@ -3,11 +3,15 @@ import Footer from "../components/Footer.jsx";
 import {useContext, useState} from "react";
 import {DataContext} from "../utils/context.js";
 import CartCard from "../components/cart-card.jsx";
+import {createOrderData, createUserData, STRAPI_URL} from "../utils/data.js";
+import axios from "axios";
 
 const CartPage = () => {
 
     const {user, setUser} = useContext(DataContext);
     const [clicked, setClicked] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [ids, setIds] = useState([]);
 
     const toggleClicked = () => setClicked(!clicked);
 
@@ -16,11 +20,47 @@ const CartPage = () => {
         toggleClicked();
     }
 
+    const updateQuantity = () => {
+        setUser(user);
+        toggleClicked();
+    }
+
+    const handleCheckout = () => {
+        getCheckedOrders().forEach(order => {
+            const {id} = order;
+            axios.delete(`${STRAPI_URL}/api/orders/${order.id}`, {
+                headers: {
+                    Authorization: `Bearer ${user.token}`
+                }
+            })
+                .then(() => {
+                    setIds([...ids, id]);
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        })
+
+        filterOrders();
+    }
+
+    const filterOrders = () => {
+        let {orders} = user;
+        orders = orders.filter(order => !ids.includes(order.id));
+        setUser({...user, orders});
+        toggleClicked();
+        console.log(ids);
+    }
+
 
     const getTotal = () => {
-        return user.orders
-            .filter(order => order.checked)
+        return getCheckedOrders()
             .reduce((total, order) => total + (order.price * order.quantity), 0);
+    }
+
+    const getCheckedOrders = () => {
+        return user.orders
+            .filter(order => order.checked);
     }
 
     return (
@@ -34,7 +74,7 @@ const CartPage = () => {
                     </div>
                 )}
                 {user && user.orders.map((order, index) => {
-                    return <CartCard order={order} updateOrders={updateOrders} key={index}/>
+                    return <CartCard order={order} updateOrders={updateOrders} updateQuantity={updateQuantity} key={index}/>
                 })}
             </section>
             <Footer/>

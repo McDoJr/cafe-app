@@ -27,7 +27,6 @@ const MenuPage = () => {
                 Authorization: `Bearer ${user.token}`
             }
         }).then(res => {
-            console.log(res.data);
             setUser({...user, orders: [...user.orders, createOrderData({name, price, quantity})]});
         }).catch(error => {
             console.log(error);
