@@ -3,6 +3,7 @@ import Footer from "../components/Footer.jsx";
 import {useEffect} from "react";
 import {scrollToTop, setPage} from "../utils/utils.js";
 import {useNavigate} from "react-router-dom";
+import bg from "../assets/pexels.jpeg";
 
 const HomePage = () => {
 
@@ -16,7 +17,7 @@ const HomePage = () => {
     return (
         <>
             <Navbar page="home"/>
-            <section className="bg-[url('src/assets/pexels.jpeg')] bg-cover bg-no-repeat bg-center md:bg-[center_top] lg:bg-[center_top_-8rem] flex justify-center">
+            <section style={{backgroundImage: `url(${bg})`}} className="bg-cover bg-no-repeat bg-center md:bg-[center_top] lg:bg-[center_top_-8rem] flex justify-center">
                 <div className="w-[350px] tablet:w-[640px] md:w-[768px] lg:w-[1024px] 2xl:w-[1280px] flex flex-col">
                     <div className="w-full h-[calc(100vh-5rem)] flex flex-col justify-center items-center">
                         <h1 className="cursive text-white text-4xl md:text-5xl lg:text-7xl mb-4 md:mb-10">Sip, Savor, and</h1>
