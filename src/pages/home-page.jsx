@@ -2,8 +2,11 @@ import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
 import {useEffect} from "react";
 import {scrollToTop, setPage} from "../utils/utils.js";
+import {useNavigate} from "react-router-dom";
 
 const HomePage = () => {
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         setPage("Home");
@@ -19,7 +22,7 @@ const HomePage = () => {
                         <h1 className="cursive text-white text-4xl md:text-5xl lg:text-7xl mb-4 md:mb-10">Sip, Savor, and</h1>
                         <h1 className="cursive text-white text-4xl md:text-5xl lg:text-7xl mb-6 md:mb-20">Sparkle.</h1>
                         <span className="text-white text-sm sm:text-md md:text-xl lg:text-2xl mb-10">Madame's Cafe is more than a cafe; it's an experience waiting just for you.</span>
-                        <button className="btn-font px-2 pb-1 bg-white text-primary-lighter font-[500] border-[2px] border-[burlywood] border-solid text-2xl rounded-[15%] hover:bg-primary hover:text-white">Buy Now</button>
+                        <button onClick={() => navigate("/menu")} className="btn-font px-2 pb-1 bg-white text-primary-lighter font-[500] border-[2px] border-[burlywood] border-solid text-2xl rounded-[15%] hover:bg-primary hover:text-white">Buy Now</button>
                     </div>
                 </div>
             </section>
